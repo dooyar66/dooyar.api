@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.757
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dooyar.api", "dooyar.api\dooyar.api.csproj", "{D98BA06F-F4CC-44FB-A37A-08460F0AB7D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dooyar.ef", "dooyar.ef\dooyar.ef.csproj", "{19E66812-0B0F-4BDC-B68A-CDF99AE92DAD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dooyar.dapper", "dooyar.dapper\dooyar.dapper.csproj", "{36555790-4451-426E-9E44-3D799E2F8871}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dooyar.dapper.test", "dooyar.dapper.test\dooyar.dapper.test.csproj", "{4A943AEC-75D2-4484-A421-5203BF0ED7CF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{8844F608-1748-451E-B56F-78A14F577D5A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D98BA06F-F4CC-44FB-A37A-08460F0AB7D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D98BA06F-F4CC-44FB-A37A-08460F0AB7D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D98BA06F-F4CC-44FB-A37A-08460F0AB7D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D98BA06F-F4CC-44FB-A37A-08460F0AB7D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19E66812-0B0F-4BDC-B68A-CDF99AE92DAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19E66812-0B0F-4BDC-B68A-CDF99AE92DAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19E66812-0B0F-4BDC-B68A-CDF99AE92DAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19E66812-0B0F-4BDC-B68A-CDF99AE92DAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36555790-4451-426E-9E44-3D799E2F8871}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36555790-4451-426E-9E44-3D799E2F8871}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36555790-4451-426E-9E44-3D799E2F8871}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36555790-4451-426E-9E44-3D799E2F8871}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A943AEC-75D2-4484-A421-5203BF0ED7CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A943AEC-75D2-4484-A421-5203BF0ED7CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A943AEC-75D2-4484-A421-5203BF0ED7CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A943AEC-75D2-4484-A421-5203BF0ED7CF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4A943AEC-75D2-4484-A421-5203BF0ED7CF} = {8844F608-1748-451E-B56F-78A14F577D5A}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1FC9EFE5-C015-4581-9239-4C5575D6323E}
+	EndGlobalSection
+EndGlobal
