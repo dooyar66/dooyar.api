@@ -1,5 +1,5 @@
-﻿using dooyar.dapper.Model;
-using dooyar.dapper.Repository;
+﻿using dooyar.dapper.Repository;
+using dooyar.freamwork.model.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -11,9 +11,9 @@ namespace dooyar.api.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IProductRepository _productRepository;
-        public ProductController()
+        public ProductController(IProductRepository productRepository)
         {
-            _productRepository = new ProductRepository("Server=localhost;User Id=root;Password=123456;Database=shop_demo");
+            _productRepository = productRepository;
         }
 
         // GET: api/Product

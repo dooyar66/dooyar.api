@@ -1,9 +1,6 @@
-﻿using System;
+﻿using dooyar.freamwork.model.Entities;
 using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
-using dooyar.dapper.Model;
 
 namespace dooyar.dapper.Repository
 {
