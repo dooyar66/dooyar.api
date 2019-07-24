@@ -20,9 +20,13 @@ namespace dooyar.api
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IHostingEnvironment _env;
+        private readonly ILoggerFactory _loggerFactory;
+        public Startup(IHostingEnvironment env, IConfiguration configuration, ILoggerFactory loggerFactory)
         {
             Configuration = configuration;
+            _env = env;
+            _loggerFactory = loggerFactory;
         }
 
         public IConfiguration Configuration { get; }
@@ -30,6 +34,21 @@ namespace dooyar.api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var logger = _loggerFactory.CreateLogger<Startup>();
+
+            if (_env.IsDevelopment())
+            {
+                // Development service configuration
+
+                logger.LogInformation("Development environment");
+            }
+            else
+            {
+                // Non-development service configuration
+
+                logger.LogInformation($"Environment: {_env.EnvironmentName}");
+            }
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             //Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
@@ -46,6 +65,7 @@ namespace dooyar.api
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
             });
+            services.AddSingleton(typeof(IProductRepository), new ProductRepository(Configuration.GetConnectionString("ShopDemoMySql")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
