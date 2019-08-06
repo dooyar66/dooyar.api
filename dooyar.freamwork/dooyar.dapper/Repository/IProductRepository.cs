@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace dooyar.dapper.Repository
 {
-    public interface IProductRepository:IDapperRepository
+    public interface IProductRepository
     {
         int Insert(Product entity);
 

@@ -1,14 +1,17 @@
 ﻿using Dapper;
+using DapperExtensions;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace dooyar.dapper.Repository
 {
-    public class DapperRepository : IDapperRepository 
+    public class DapperRepository<TEntity> : IDapperRepository<TEntity> where TEntity : class
     {
         private readonly string _connStr;
         private readonly DbType _dbType;
@@ -17,6 +20,139 @@ namespace dooyar.dapper.Repository
             _connStr = connStr;
             _dbType = dbType;
         }
+
+        #region  entity CRUD
+
+        public TEntity Get(Expression<Func<TEntity, bool>> expression = null)
+        {
+            var predicate = DapperLinqBuilder<TEntity>.FromExpression(expression);
+            using (var connection = ConnectionFactory.CreateConnection(_connStr, _dbType))
+            {
+                return connection.GetList<TEntity>(predicate).FirstOrDefault();
+            }
+        }
+
+        public TEntity GetById(dynamic primaryId)
+        {
+            using (var connection = ConnectionFactory.CreateConnection(_connStr, _dbType))
+            {
+                return connection.Get<TEntity>(primaryId as object);
+            }
+        }
+
+        public Task<TEntity> GetByIdAsync(dynamic primaryId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<TEntity> GetList(Expression<Func<TEntity, bool>> expression = null)
+        {
+            var predicate = DapperLinqBuilder<TEntity>.FromExpression(expression);
+            using (var connection = ConnectionFactory.CreateConnection(_connStr, _dbType))
+            {
+                return connection.GetList<TEntity>(predicate);
+            }
+        }
+
+        public Task<IEnumerable<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> expression = null)
+        {
+            var predicate = DapperLinqBuilder<TEntity>.FromExpression(expression);
+            using (var connection = ConnectionFactory.CreateConnection(_connStr, _dbType))
+            {
+                return connection.GetListAsync<TEntity>(predicate);
+            }
+        }
+
+
+        public bool Insert(TEntity entity)
+        {
+            using (var connection = ConnectionFactory.CreateConnection(_connStr, _dbType))
+            {
+                return connection.Insert(entity);
+            }
+        }
+
+        public void Insert(IEnumerable<TEntity> entitys)
+        {
+            using (var connection = ConnectionFactory.CreateConnection(_connStr, _dbType))
+            {
+                connection.Insert(entitys);
+            }
+        }
+
+        public Task<dynamic> InsertAsync(TEntity entity)
+        {
+            using (var connection = ConnectionFactory.CreateConnection(_connStr, _dbType))
+            {
+              return  connection.InsertAsync(entity);
+            }
+        }
+
+        public bool Update(TEntity entity)
+        {
+            using (var connection = ConnectionFactory.CreateConnection(_connStr, _dbType))
+            {
+               return connection.Update(entity);
+            }
+        }
+
+        public Task<bool> UpdateAsync(TEntity entity)
+        {
+            throw new NotImplementedException();
+        }
+        public int Count(Expression<Func<TEntity, bool>> expression = null)
+        {
+            var predicate = DapperLinqBuilder<TEntity>.FromExpression(expression);
+            using (var connection = ConnectionFactory.CreateConnection(_connStr, _dbType))
+            {
+                return connection.Count<TEntity>(predicate);
+            }
+        }
+
+        public bool Delete(Expression<Func<TEntity, bool>> expression)
+        {
+            var predicate = DapperLinqBuilder<TEntity>.FromExpression(expression);
+            using (var connection = ConnectionFactory.CreateConnection(_connStr, _dbType))
+            {
+                return connection.Delete<TEntity>(predicate);
+            }
+        }
+
+        public Task<bool> DeleteAsync(Expression<Func<TEntity, bool>> expression)
+        {
+            var predicate = DapperLinqBuilder<TEntity>.FromExpression(expression);
+            using (var connection = ConnectionFactory.CreateConnection(_connStr, _dbType))
+            {
+                return connection.DeleteAsync<TEntity>(predicate);
+            }
+        }
+
+        public bool Delete(dynamic primaryId)
+        {
+            using (var connection = ConnectionFactory.CreateConnection(_connStr, _dbType))
+            {
+                return connection.Delete<TEntity>(primaryId as object);
+            }
+        }
+
+        public Task<bool> DeleteAsync(dynamic primaryId)
+        {
+            using (var connection = ConnectionFactory.CreateConnection(_connStr, _dbType))
+            {
+                return connection.DeleteAsync<TEntity>(primaryId as object);
+            }
+        }
+
+        public bool Exists(Expression<Func<TEntity, bool>> expression)
+        {
+            var predicate = DapperLinqBuilder<TEntity>.FromExpression(expression);
+            using (var connection = ConnectionFactory.CreateConnection(_connStr, _dbType))
+            {
+                return connection.Count<TEntity>(predicate) > 0;
+            }
+        }                
+        #endregion
+
         public int Execute(string sql, object param = null, CommandType? commandType = null)
         {
             using (var connection = ConnectionFactory.CreateConnection(_connStr, _dbType))
@@ -49,6 +185,7 @@ namespace dooyar.dapper.Repository
             }
         }
 
+    
         public IEnumerable<dynamic> Query(string sql, object param = null)
         {
             using (var connention = ConnectionFactory.CreateConnection(_connStr, _dbType))
@@ -111,6 +248,6 @@ namespace dooyar.dapper.Repository
             {
                 return connention.QueryFirstAsync(sql, param);
             }
-        }
+        }      
     }
 }

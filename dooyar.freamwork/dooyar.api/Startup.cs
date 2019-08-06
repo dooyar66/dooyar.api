@@ -65,7 +65,7 @@ namespace dooyar.api
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
             });
-            services.AddSingleton(typeof(IProductRepository), new ProductRepository(Configuration.GetConnectionString("ShopDemoMySql")));
+            //services.AddSingleton(typeof(IProductRepository), new ProductRepository(Configuration.GetConnectionString("ShopDemoMySql")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

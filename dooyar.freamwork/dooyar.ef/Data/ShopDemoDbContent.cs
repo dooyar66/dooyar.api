@@ -5,6 +5,11 @@ namespace dooyar.ef.Data
 {
     public class ShopDemoDbContent:DbContext
     {
+        public ShopDemoDbContent()
+        {
+
+        }
+
         public ShopDemoDbContent(DbContextOptions<ShopDemoDbContent> options) : base(options)
         {
 
@@ -15,7 +20,10 @@ namespace dooyar.ef.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseMySql("");
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseMySql("Server=localhost;User Id=root;Password=123456;Database=shop_demo");
+            }            
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

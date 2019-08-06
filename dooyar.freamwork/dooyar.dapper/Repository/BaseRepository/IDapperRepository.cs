@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace dooyar.dapper.Repository
 {
-    public interface IDapperRepository
+    public interface IDapperRepository<TEntity>: IDapperEntityRepository<TEntity> where TEntity : class
     {
         IEnumerable<dynamic> Query(string sql, object param = null);
 
