@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace dooyar.freamwork.model.Entities
+namespace dooyar.models.Entities
 {
     public class Product
     {

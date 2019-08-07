@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\dooyar.freamwork.model\dooyar.freamwork.model.csproj" />
+    <ProjectReference Include="..\dooyar.models\dooyar.models.csproj" />
   </ItemGroup>
 
   <ItemGroup>

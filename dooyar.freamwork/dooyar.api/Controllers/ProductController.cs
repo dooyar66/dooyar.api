@@ -1,5 +1,4 @@
-﻿using dooyar.dapper.Repository;
-using dooyar.freamwork.model.Entities;
+﻿using dooyar.models.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -10,70 +9,70 @@ namespace dooyar.api.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private readonly IProductRepository _productRepository;
-        public ProductController(IProductRepository productRepository)
-        {
-            _productRepository = productRepository;
-        }
+        //private readonly IProductRepository _productRepository;
+        //public ProductController(IProductRepository productRepository)
+        //{
+        //    _productRepository = productRepository;
+        //}
 
-        // GET: api/Product
-        [HttpGet]
-        public async Task<IEnumerable<Product>> GetList()
-        {
-            return await _productRepository.GetListAsync();
-        }
+        //// GET: api/Product
+        //[HttpGet]
+        //public async Task<IEnumerable<Product>> GetList()
+        //{
+        //    return await _productRepository.GetListAsync();
+        //}
 
-        // GET: api/Product/1
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> GetProduct(int id)
-        {
-            var product = await _productRepository.GetAsync(id);
+        //// GET: api/Product/1
+        //[HttpGet("{id}")]
+        //public async Task<ActionResult<Product>> GetProduct(int id)
+        //{
+        //    var product = await _productRepository.GetAsync(id);
 
-            if (product == null)
-            {
-                return NotFound();
-            }
+        //    if (product == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return product;
-        }
+        //    return product;
+        //}
 
-        // POST: api/Product
-        [HttpPost]
-        public async Task<ActionResult<Product>> PostProcuct(Product product)
-        {
-            await _productRepository.InsertAsync(product);
+        //// POST: api/Product
+        //[HttpPost]
+        //public async Task<ActionResult<Product>> PostProcuct(Product product)
+        //{
+        //    await _productRepository.InsertAsync(product);
 
-            // return CreatedAtAction(nameof(GetProduct), new { id = product.Id }, product);
-            return NoContent();
-        }
+        //    // return CreatedAtAction(nameof(GetProduct), new { id = product.Id }, product);
+        //    return NoContent();
+        //}
 
-        // PUT: api/Todo/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutProduct(int id, Product product)
-        {
-            if (id != product.Id)
-            {
-                return BadRequest();
-            }
+        //// PUT: api/Todo/5
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> PutProduct(int id, Product product)
+        //{
+        //    if (id != product.Id)
+        //    {
+        //        return BadRequest();
+        //    }
 
-            await _productRepository.UpdateAsync(product);
+        //    await _productRepository.UpdateAsync(product);
 
-            return NoContent();
-        }
-        // DELETE: api/Todo/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProduct(int id)
-        {
-            var product = await _productRepository.GetAsync(id);
+        //    return NoContent();
+        //}
+        //// DELETE: api/Todo/5
+        //[HttpDelete("{id}")]
+        //public async Task<IActionResult> DeleteProduct(int id)
+        //{
+        //    var product = await _productRepository.GetAsync(id);
 
-            if (product == null)
-            {
-                return NotFound();
-            }
+        //    if (product == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            await _productRepository.DeleteAsync(id);
+        //    await _productRepository.DeleteAsync(id);
 
-            return NoContent();
-        }
+        //    return NoContent();
+        //}
     }
 }

@@ -1,4 +1,4 @@
-﻿using dooyar.freamwork.model.Entities;
+﻿using dooyar.models.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace dooyar.ef.Data
