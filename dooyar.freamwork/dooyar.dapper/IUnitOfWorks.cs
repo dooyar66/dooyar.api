@@ -7,12 +7,12 @@ using System.Text;
 
 namespace dooyar.dapper
 {
-    public interface IDapperHelper
+    public interface IUnitOfWorks:IDisposable
     {
         Database GetConnection();
         T Get<T>(dynamic id, IDbTransaction tran = null, int? commandTimeout = null) where T : class;
-        IEnumerable<T> GetAll<T>(Expression<Func<T, bool>> expression = null, IList<ISort> sort = null, IDbTransaction tran = null, int? commandTimeout = null, bool buffered = true) where T : class;
-        IEnumerable<T> GetPage<T>(Expression<Func<T, bool>> expression , IList<ISort> sort, int page, int pagesize, IDbTransaction tran = null, int? commandTimeout = null, bool buffered = true) where T : class;
+        IEnumerable<T> GetList<T>(Expression<Func<T, bool>> expression = null, IList<ISort> sort = null, IDbTransaction tran = null, int? commandTimeout = null, bool buffered = true) where T : class;
+        IEnumerable<T> GetPage<T>(Expression<Func<T, bool>> expression, IList<ISort> sort, int page, int pagesize, IDbTransaction tran = null, int? commandTimeout = null, bool buffered = true) where T : class;
         dynamic Insert<T>(T obj, IDbTransaction tran = null, int? commandTimeout = null) where T : class;
         void Insert<T>(IEnumerable<T> list, IDbTransaction tran = null, int? commandTimeout = null) where T : class;
         bool Update<T>(T obj, IDbTransaction tran = null, int? commandTimeout = null, bool ignoreAllKeyProperties = false) where T : class;

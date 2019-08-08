@@ -9,12 +9,12 @@ using System.Text;
 
 namespace dooyar.dapper
 {
-    public class DapperHelper : IDapperHelper, IDisposable
+    public class UnitOfWorks:IUnitOfWorks
     {
         private Database Connection = null;
 
-        public DapperHelper(string connStr, DBTypes dbType = DBTypes.MySql)
-        {       
+        public UnitOfWorks(string connStr, DBTypes dbType = DBTypes.MySql)
+        {
             Connection = ConnectionFactory.CreateConnection(connStr, dbType);
         }
         public Database GetConnection()
@@ -25,7 +25,7 @@ namespace dooyar.dapper
         {
             return Connection.Get<T>(id, tran, commandTimeout);
         }
-        public IEnumerable<T> GetAll<T>(Expression<Func<T, bool>> expression = null, IList<ISort> sort = null, IDbTransaction tran = null, int? commandTimeout = null, bool buffered = true) where T : class
+        public IEnumerable<T> GetList<T>(Expression<Func<T, bool>> expression = null, IList<ISort> sort = null, IDbTransaction tran = null, int? commandTimeout = null, bool buffered = true) where T : class
         {
             var predicate = DapperLinqBuilder<T>.FromExpression(expression);
             return Connection.GetList<T>(predicate, sort, tran, commandTimeout, buffered);
@@ -45,8 +45,8 @@ namespace dooyar.dapper
         {
 
             return Connection.Delete(list, tran, commandTimeout);
-        }      
-       
+        }
+
         public dynamic Insert<T>(T obj, IDbTransaction tran = null, int? commandTimeout = null) where T : class
         {
             return Connection.Insert(obj, tran, commandTimeout);
