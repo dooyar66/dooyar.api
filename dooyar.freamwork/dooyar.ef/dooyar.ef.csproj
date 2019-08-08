@@ -5,11 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Repository\" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.6" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\dooyar.freamwork.model\dooyar.freamwork.model.csproj" />
+    <ProjectReference Include="..\dooyar.models\dooyar.models.csproj" />
   </ItemGroup>
 
   <ItemGroup>

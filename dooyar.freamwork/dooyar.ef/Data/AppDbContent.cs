@@ -1,21 +1,50 @@
-﻿using dooyar.freamwork.model.Entities;
+﻿using dooyar.models.Entities;
+using dooyar.models.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace dooyar.ef.Data
 {
-    public class ShopDemoDbContent:DbContext
+    public class AppDbContent:DbContext
     {
-        public ShopDemoDbContent(DbContextOptions<ShopDemoDbContent> options) : base(options)
+        private readonly string _connStr;
+        private readonly DBTypes _dbTypes;
+        public AppDbContent(string connStr,DBTypes dbTypes = DBTypes.MySql)
+        {
+            _connStr = connStr;
+            _dbTypes = dbTypes;
+        }
+
+        public AppDbContent(DbContextOptions<AppDbContent> options) : base(options)
         {
 
         }
 
         public DbSet<Product> Products { get; set; }
 
+        public DbSet<User> Users { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseMySql("");
+            if (!optionsBuilder.IsConfigured)
+            {
+                switch (_dbTypes)
+                {
+                    case DBTypes.SqlServer:
+                        optionsBuilder.UseSqlServer(_connStr);
+                        break;
+                    case DBTypes.MySql:
+                        optionsBuilder.UseMySql(_connStr);
+                        break;
+                    case DBTypes.Sqlite:
+                        break;
+                    case DBTypes.Oracle:
+                        break;
+                    default:
+                        break;
+                }
+               
+            }            
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -25,6 +54,12 @@ namespace dooyar.ef.Data
             modelBuilder.Entity<Product>(entity =>
             {
                 entity.ToTable("Products");
+            });
+
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.ToTable("Users");
+                entity.Property(t => t.UserName).HasColumnName("user_name");
             });
 
             //modelBuilder.Entity<StatPageVisitRecord>(entity =>

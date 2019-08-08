@@ -1,45 +1,50 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Data.SqlClient;
-using System.Text;
-
+﻿using DapperExtensions;
+using DapperExtensions.Mapper;
+using DapperExtensions.Sql;
+using dooyar.models.Enums;
 using MySql.Data.MySqlClient;
+using Oracle.ManagedDataAccess.Client;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Data.SQLite;
+using System.Reflection;
 
 namespace dooyar.dapper
 {
     public  class ConnectionFactory
     {
-        public static IDbConnection CreateConnection(string connStr,DbType dbType = DbType.MySql)
+        public static Database CreateConnection(string connStr,DBTypes dbType = DBTypes.MySql)
         {
-            IDbConnection dbConnection;
+            Database connection = null;
             switch (dbType)
             {
-                case DbType.SqlServer:
-                    dbConnection = new SqlConnection(connStr);
+                case DBTypes.SqlServer:
+                    var sqlConn = new SqlConnection(connStr);
+                    var sqlconfig = new DapperExtensionsConfiguration(typeof(CustomPluralizedMapper<>), new[]{typeof(Mappings).Assembly}, new SqlServerDialect());
+                    var sqlGenerator = new SqlGeneratorImpl(sqlconfig);
+                    connection = new Database(sqlConn, sqlGenerator);
                     break;
-                case DbType.MySql:
-                    dbConnection = new  MySqlConnection(connStr);
+                case DBTypes.MySql:
+                    var mysqlConn = new MySqlConnection(connStr);
+                    var mysqlconfig = new DapperExtensionsConfiguration(typeof(CustomPluralizedMapper<>), new[] { typeof(Mappings).Assembly }, new MySqlDialect());
+                    var mysqlGenerator = new SqlGeneratorImpl(mysqlconfig);
+                    connection = new Database(mysqlConn, mysqlGenerator);
                     break;
-                //case DbType.Oracle:
-                //    break;
-                default:
-                    dbConnection = new MySqlConnection(connStr);
+                case DBTypes.Sqlite:
+                    var sqlliteConn = new SQLiteConnection(connStr);
+                    var sqlliteconfig = new DapperExtensionsConfiguration(typeof(CustomPluralizedMapper<>), new[] { typeof(Mappings).Assembly }, new SqliteDialect());
+                    var sqlliteGenerator = new SqlGeneratorImpl(sqlliteconfig);
+                    connection = new Database(sqlliteConn, sqlliteGenerator);
+                    break;
+                case DBTypes.Oracle:
+                    var orcalConn = new OracleConnection(connStr);
+                    var orcaleconfig = new DapperExtensionsConfiguration(typeof(CustomPluralizedMapper<>), new[] { typeof(Mappings).Assembly }, new OracleDialect());
+                    var orcaleGenerator = new SqlGeneratorImpl(orcaleconfig);
+                    connection = new Database(orcalConn, orcaleGenerator);
                     break;
             }
-            return dbConnection;
+            return connection;
         }
     }
 
-    public enum DbType
-    {
-        Invalid,
-        [Description("sql数据库")]
-        SqlServer = 1,
-        [Description("mysql数据库")]
-        MySql = 2,
-        [Description("Oracle数据库")]
-        Oracle = 3
-    }
 }

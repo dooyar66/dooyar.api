@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.28307.757
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{8844F608-1748-451E-B56F-78A14F577D5A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dooyar.freamwork.model", "dooyar.freamwork\dooyar.freamwork.model\dooyar.freamwork.model.csproj", "{96E7546C-EDB5-41E4-8EE8-2644A8650CD4}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dooyar.ef", "dooyar.freamwork\dooyar.ef\dooyar.ef.csproj", "{1F1D79F0-10D4-4AA4-B5F2-FBE1DA796FA8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dooyar.dapper", "dooyar.freamwork\dooyar.dapper\dooyar.dapper.csproj", "{FF5AFF6F-3FF8-43C0-8D1E-40E9B7015C36}"
@@ -15,16 +13,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dooyar.api", "dooyar.freamw
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dooyar.dapper.test", "dooyar.freamwork\dooyar.dapper.test\dooyar.dapper.test.csproj", "{BD0AF3BA-6C93-4B95-B99E-6ECB857141D0}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dooyar.models", "dooyar.freamwork\dooyar.models\dooyar.models.csproj", "{07676416-ACBB-4400-8296-E0D9489607DE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{96E7546C-EDB5-41E4-8EE8-2644A8650CD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{96E7546C-EDB5-41E4-8EE8-2644A8650CD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{96E7546C-EDB5-41E4-8EE8-2644A8650CD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{96E7546C-EDB5-41E4-8EE8-2644A8650CD4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1F1D79F0-10D4-4AA4-B5F2-FBE1DA796FA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1F1D79F0-10D4-4AA4-B5F2-FBE1DA796FA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F1D79F0-10D4-4AA4-B5F2-FBE1DA796FA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -41,6 +37,10 @@ Global
 		{BD0AF3BA-6C93-4B95-B99E-6ECB857141D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD0AF3BA-6C93-4B95-B99E-6ECB857141D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD0AF3BA-6C93-4B95-B99E-6ECB857141D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07676416-ACBB-4400-8296-E0D9489607DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07676416-ACBB-4400-8296-E0D9489607DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07676416-ACBB-4400-8296-E0D9489607DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07676416-ACBB-4400-8296-E0D9489607DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
