@@ -5,100 +5,126 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq.Expressions;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace dooyar.dapper
 {
     public class UnitOfWorks:IUnitOfWorks
     {
-        private Database Connection = null;
+        private Database Database = null;
 
         public UnitOfWorks(string connStr, DBTypes dbType = DBTypes.MySql)
         {
-            Connection = ConnectionFactory.CreateConnection(connStr, dbType);
+            Database = ConnectionFactory.CreateConnection(connStr, dbType);
         }
         public Database GetConnection()
         {
-            return Connection;
+            return Database;
         }
-        public T Get<T>(dynamic id, IDbTransaction tran = null, int? commandTimeout = null) where T : class
+        public T Get<T>(dynamic id, IDbTransaction trans = null, int? commandTimeout = null) where T : class
         {
-            return Connection.Get<T>(id, tran, commandTimeout);
+            return Database.Get<T>(id, trans, commandTimeout);
         }
-        public IEnumerable<T> GetList<T>(Expression<Func<T, bool>> expression = null, IList<ISort> sort = null, IDbTransaction tran = null, int? commandTimeout = null, bool buffered = true) where T : class
+
+        public IEnumerable<T> GetList<T>(Expression<Func<T, bool>> expression = null, IList<ISort> sort = null, IDbTransaction trans = null, int? commandTimeout = null, bool buffered = true) where T : class
         {
             var predicate = DapperLinqBuilder<T>.FromExpression(expression);
-            return Connection.GetList<T>(predicate, sort, tran, commandTimeout, buffered);
+            return Database.GetList<T>(predicate, sort, trans, commandTimeout, buffered);
         }
-        public IEnumerable<T> GetPage<T>(Expression<Func<T, bool>> expression, IList<ISort> sort, int page, int pagesize, IDbTransaction tran = null, int? commandTimeout = null, bool buffered = true) where T : class
+        public IEnumerable<T> GetPage<T>(Expression<Func<T, bool>> expression, IList<ISort> sort, int page, int pagesize, IDbTransaction trans = null, int? commandTimeout = null, bool buffered = true) where T : class
         {
             var predicate = DapperLinqBuilder<T>.FromExpression(expression);
-            return Connection.GetPage<T>(predicate, sort, page, pagesize, tran, commandTimeout, buffered);
+            return Database.GetPage<T>(predicate, sort, page, pagesize, trans, commandTimeout, buffered);
         }
-        public bool Delete<T>(T obj, IDbTransaction tran = null, int? commandTimeout = null) where T : class
+        public bool Delete<T>(T entity, IDbTransaction trans = null, int? commandTimeout = null) where T : class
         {
 
-            return Connection.Delete(obj, tran, commandTimeout);
+            return Database.Delete(entity, trans, commandTimeout);
         }
 
-        public bool Delete<T>(IEnumerable<T> list, IDbTransaction tran = null, int? commandTimeout = null) where T : class
+       public Task<bool> DeleteAsync<T>(T entity, IDbTransaction transaction = null, int? commandTimeout = null) where T : class
         {
-
-            return Connection.Delete(list, tran, commandTimeout);
+            return Database.Connection.DeleteAsync<T>(entity, transaction, commandTimeout);
         }
 
-        public dynamic Insert<T>(T obj, IDbTransaction tran = null, int? commandTimeout = null) where T : class
+        public bool Delete<T>(IEnumerable<T> list, IDbTransaction trans = null, int? commandTimeout = null) where T : class
         {
-            return Connection.Insert(obj, tran, commandTimeout);
+
+            return Database.Delete(list, trans, commandTimeout);
         }
 
-        public void Insert<T>(IEnumerable<T> list, IDbTransaction tran = null, int? commandTimeout = null) where T : class
+        public bool Delete<T>(Expression<Func<T, bool>> expression, IDbTransaction trans = null, int? commandTimeout = null) where T : class
         {
-            Connection.Insert(list, tran, commandTimeout);
-        }
-        public bool Update<T>(T obj, IDbTransaction tran = null, int? commandTimeout = null, bool ignoreAllKeyProperties = true) where T : class
-        {
-            return Connection.Update(obj, tran, commandTimeout, ignoreAllKeyProperties);
+            var predicate = DapperLinqBuilder<T>.FromExpression(expression);
+            return Database.Delete(predicate, trans, commandTimeout);
         }
 
-        public bool Update<T>(IEnumerable<T> list, IDbTransaction tran = null, int? commandTimeout = null, bool ignoreAllKeyProperties = true) where T : class
+        public dynamic Insert<T>(T entity, IDbTransaction trans = null, int? commandTimeout = null) where T : class
         {
-            return Connection.Update(list, tran, commandTimeout, ignoreAllKeyProperties);
+            return Database.Insert(entity, trans, commandTimeout);
         }
+        public Task<dynamic> InsertAsync<T>(T entity, IDbTransaction trans = null, int? commandTimeout = null) where T : class
+        {
+            return Database.Connection.InsertAsync(entity, trans, commandTimeout);
+        }
+
+        public void Insert<T>(IEnumerable<T> list, IDbTransaction trans = null, int? commandTimeout = null) where T : class
+        {
+            Database.Insert(list, trans, commandTimeout);
+        }
+
+        public Task InsertAsync<T>(IEnumerable<T> list, IDbTransaction trans = null, int? commandTimeout = null) where T : class
+        {
+            return Database.Connection.InsertAsync(list, trans, commandTimeout);
+        }
+        public bool Update<T>(T entity, IDbTransaction trans = null, int? commandTimeout = null, bool ignoreAllKeyProperties = true) where T : class
+        {
+            return Database.Update(entity, trans, commandTimeout, ignoreAllKeyProperties);
+        }
+        public Task<bool> UpdateAsync<T>(T entity, IDbTransaction trans = null, int? commandTimeout = null, bool ignoreAllKeyProperties = false) where T : class
+        {
+            return Database.Connection.UpdateAsync(entity, trans, commandTimeout, ignoreAllKeyProperties);
+        }
+
+        public bool Update<T>(IEnumerable<T> list, IDbTransaction trans = null, int? commandTimeout = null, bool ignoreAllKeyProperties = true) where T : class
+        {
+            return Database.Update(list, trans, commandTimeout, ignoreAllKeyProperties);
+        }
+       
         public List<T> Query<T>(string sql, object param = null, IDbTransaction transaction = null, bool buffered = true, int? commandTimeout = null, CommandType? commandType = null)
         {
-            return Connection.Connection.Query<T>(sql, param, transaction, buffered, commandTimeout, commandType).AsList();
+            return Database.Connection.Query<T>(sql, param, transaction, buffered, commandTimeout, commandType).AsList();
         }
         public int Execute<T>(string sql, object param = null, IDbTransaction transaction = null, bool buffered = true, int? commandTimeout = null, CommandType? commandType = null)
         {
-            return Connection.Connection.Execute(sql, param, transaction, commandTimeout, commandType);
+            return Database.Connection.Execute(sql, param, transaction, commandTimeout, commandType);
         }
 
         public IDbTransaction BeginTransaction(IsolationLevel isolationLevel = IsolationLevel.ReadCommitted)
         {
-            if (Connection.Connection.State == ConnectionState.Closed)
-                Connection.Connection.Open();
-            return Connection.Connection.BeginTransaction(isolationLevel);
+            if (Database.Connection.State == ConnectionState.Closed)
+                Database.Connection.Open();
+            return Database.Connection.BeginTransaction(isolationLevel);
         }
-        public void RollBack(IDbTransaction tran)
+        public void RollBack(IDbTransaction trans)
         {
-            tran.Rollback();
-            if (Connection.Connection.State == ConnectionState.Open)
-                tran.Connection.Close();
+            trans.Rollback();
+            if (Database.Connection.State == ConnectionState.Open)
+                trans.Connection.Close();
         }
-        public void Commit(IDbTransaction tran)
+        public void Commit(IDbTransaction trans)
         {
-            tran.Commit();
-            if (Connection.Connection.State == ConnectionState.Open)
-                tran.Connection.Close();
+            trans.Commit();
+            if (Database.Connection.State == ConnectionState.Open)
+                trans.Connection.Close();
         }
 
         public void Dispose()
         {
-            if (Connection != null)
+            if (Database != null)
             {
-                Connection.Dispose();
+                Database.Dispose();
             }
-        }
+        }          
     }
 }
